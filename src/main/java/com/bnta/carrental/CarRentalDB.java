@@ -3,6 +3,7 @@ package com.bnta.carrental;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class CarRentalDB {
     private List<Car> cars;
     private List<Car> availableCars;
