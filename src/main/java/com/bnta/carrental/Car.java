@@ -20,6 +20,7 @@ public class Car {
         this.carID = carID;
         this.price = price;
         this.make = make;
+        this.rented = false;
     }
 
     public int getCarID() {

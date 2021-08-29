@@ -17,11 +17,17 @@ public class Rental {
     }
 
     public void bookCar(int carID){
+        if (!carRentalDB.isCarAvailable(carID)){
+            System.out.println("Please double check!");
+            return;
+        }
+
         for(Car car : carRentalDB.getAvailableCars()){
             if (car.getCarID() == carID){
                 carRentalDB.carRented(car);
-                car.setRented(true);
-                System.out.println(car + " booked successfully!");
+                System.out.println(car + " booked successfully." +
+                        "\nIMPORTANT: Please make a note of your car ID" +
+                        "\nThank you for using our service!");
                 break;
             }
         }
@@ -31,12 +37,16 @@ public class Rental {
 
 
     public void returnCar(int carID){
+        if (!carRentalDB.isCarRented(carID)){
+            System.out.println("Please double check!");
+            return;
+        }
 
         for(Car car : carRentalDB.getRentedCars()){
             if (car.getCarID() == carID){
             carRentalDB.carAvailable(car);
-            car.setRented(false);
-            System.out.println(car + "successfully returned.");
+            System.out.println(car.getCarID() + " " + car.getMake() + " successfully returned." +
+                    "\nThank you for using our service!");
             break;
         }
         }
