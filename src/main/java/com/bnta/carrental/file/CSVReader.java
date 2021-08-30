@@ -1,4 +1,7 @@
-package com.bnta.carrental;
+package com.bnta.carrental.file;
+
+import com.bnta.carrental.car.Car;
+import com.bnta.carrental.car.CarsMake;
 
 import java.io.File;
 import java.io.FileNotFoundException;

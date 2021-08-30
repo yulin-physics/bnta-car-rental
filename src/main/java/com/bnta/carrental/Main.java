@@ -1,15 +1,21 @@
 package com.bnta.carrental;
 
+import com.bnta.carrental.car.Car;
+import com.bnta.carrental.car.CarRentalDB;
+import com.bnta.carrental.car.CarsMake;
+import com.bnta.carrental.file.CSVReader;
+import com.bnta.carrental.file.CSVSaver;
+
+import java.io.Console;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws IOException {
         File file = new File("src/main/java/com/bnta/carrental/rentalDB.csv");
         CSVReader csvReader = new CSVReader();
+        CSVSaver csvSaver = new CSVSaver();
 
         CarRentalDB carRentalDB = new CarRentalDB();
         Rental rental = new Rental(carRentalDB);
@@ -59,28 +65,76 @@ public class Main {
 
             if (answer == 1){
                 //book car
-                System.out.println("\nHere are our available cars" +
-                        "\nPlease enter car ID from the following list");
-                rental.showCars();
 
-                answer = scanner.nextInt();
-                rental.bookCar(answer);
-                CSVSaver csvSaver = new CSVSaver();
-                csvSaver.saveDB(file, carRentalDB.getCars());
+                boolean isCarAvailable = rental.showCars();
+                if (isCarAvailable) {
+                    answer = scanner.nextInt();
+                    rental.bookCar(answer);
+
+                    csvSaver.saveDB(file, carRentalDB.getCars());
+                }
+
             } else {
                 // return car
                 System.out.println("\nPlease enter car ID.");
 
                 answer = scanner.nextInt();
                 rental.returnCar(answer);
-                CSVSaver csvSaver = new CSVSaver();
+
                 csvSaver.saveDB(file, carRentalDB.getCars());
             }
 
 
         } else if (!isCarRental) {
-            System.out.println("management options here!");
-            //car management options here!
+            System.out.println("Would you like to" + "\n1. Add a new car" + "\n2. Remove an existing car"
+                    +"\n3. Show available cars" + "\n4. Show rented cars"
+            );
+
+            answer = scanner.nextInt();
+
+            switch (answer){
+                case 1:
+                    System.out.println("Please enter car make");
+                    Scanner input1 = new Scanner(System.in);
+                    String inputCarMake = input1.nextLine();
+                    //CarsMake is an Enum, converting String carMake to type Enum
+                    CarsMake carMake = CarsMake.valueOf(inputCarMake.toUpperCase());
+                    System.out.println("Please enter daily price for renting");
+                    Scanner input2 = new Scanner(System.in);
+                    String inputPrice = input2.nextLine();
+                    //Converting price from integer to a double
+                    Double price = Double.parseDouble(inputPrice);
+                    int carID = carRentalDB.getLastCarID() + 1;
+
+                    Car car = new Car(carID, price, carMake, false);
+                    carRentalDB.addCar(car);
+
+                    csvSaver.saveDB(file, carRentalDB.getCars());
+
+                    System.out.println(car + " added to database");
+                    break;
+                case 2:
+                    System.out.println("Enter the car ID below");
+                    answer = scanner.nextInt();
+
+                    Car inputCar = carRentalDB.createCarFromID(answer);
+                    System.out.println(inputCar + "will be removed");
+
+                    carRentalDB.removeCar(answer);
+
+                    csvSaver.saveDB(file, carRentalDB.getCars());
+
+                    break;
+                case 3:
+                    carRentalDB.showAvailableCars();
+                    break;
+                case 4:
+                    carRentalDB.showRentedCars();
+                    break;
+
+            }
+
+
 
         } else{
             throw new IllegalArgumentException("Unexpected option: " + answer);
@@ -90,6 +144,19 @@ public class Main {
 
     }
 
+    public static void passwordExample() {
+        Console console = System.console();
+
+        if (console == null) {
+            System.out.println("Couldn't get Console instance");
+            System.exit(0);
+        }
+
+        console.printf("Testing password%n");
+        char[] passwordArray = console.readPassword("Enter your secret password: ");
+        console.printf("Password entered was: %s%n", new String(passwordArray));
+    }
 
 
-}
+
+    }

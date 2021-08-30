@@ -1,6 +1,9 @@
 package com.bnta.carrental;
 
-import java.util.List;
+import com.bnta.carrental.car.Car;
+import com.bnta.carrental.car.CarRentalDB;
+
+import java.util.Scanner;
 
 public class Rental {
     private CarRentalDB carRentalDB;
@@ -9,11 +12,23 @@ public class Rental {
         this.carRentalDB = carRentalDB;
     }
 
-    public void showCars(){
+    public boolean showCars(){
+        //the returned boolean indicates if any car available
+        if (carRentalDB.getAvailableCars().isEmpty()){
+            System.out.println("We are sorry, no cars available at the moment. \nPlease come back later");
+            return false;
 
-        for(Car car : carRentalDB.getAvailableCars()){
-            System.out.println(car.getCarID() + " "+ car.getMake() + " " +  car.getPrice());
+        } else{
+            System.out.println("\nHere are our available cars" +
+                    "\nPlease enter car ID from the following list");
+
+            for(Car car : carRentalDB.getAvailableCars()){
+                System.out.println(car.getCarID() + " "+ car.getMake() + " " +  car.getPrice());
+            }
+
+            return true;
         }
+
     }
 
     public void bookCar(int carID){

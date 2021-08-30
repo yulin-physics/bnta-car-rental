@@ -1,4 +1,4 @@
-package com.bnta.carrental;
+package com.bnta.carrental.car;
 
 public enum CarsMake {
     AUDI,

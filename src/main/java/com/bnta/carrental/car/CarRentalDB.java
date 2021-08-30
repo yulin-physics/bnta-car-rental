@@ -1,9 +1,11 @@
-package com.bnta.carrental;
+package com.bnta.carrental.car;
+
+import com.bnta.carrental.car.Car;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
+import java.util.Objects;
 
 public class CarRentalDB {
     private List<Car> cars;
@@ -16,6 +18,38 @@ public class CarRentalDB {
         this.rentedCars = new ArrayList();
 
     }
+
+    public void showAvailableCars(){
+
+        if (availableCars.isEmpty()){
+            System.out.println("No cars available");
+
+        } else{
+            System.out.println("\nHere are the available cars" );
+
+            System.out.println(availableCars);
+        }
+    }
+
+
+    public void showRentedCars(){
+
+        if (rentedCars.isEmpty()){
+            System.out.println("No cars rented");
+
+        } else{
+            System.out.println("\nHere are the rented cars" );
+
+            System.out.println(rentedCars);
+        }
+
+    }
+
+    public int getLastCarID(){
+        Car lastCar = cars.get(cars.size()-1);
+        return lastCar.getCarID();
+    }
+
 
     public void addCars(List<Car> cars){
 
@@ -33,16 +67,18 @@ public class CarRentalDB {
     public void addCar(Car car){
 
         this.cars.add(car);
-
         if (car.isRented()){
             this.rentedCars.add(car);
         } else {
             this.availableCars.add(car);
         }
 
-
     }
 
+//    private int getLastCarID(){
+//        Car car = cars.get(cars.size() - 1);
+//        return car.getCarID();
+//    }
 
 
     public void removeCars(List<Car> cars){
@@ -54,14 +90,28 @@ public class CarRentalDB {
         }
     }
 
-    public void removeCar(Car car){
+    public void removeCar(int carID){
+        Car car = createCarFromID(carID);
         if (this.cars.contains(car)){
             this.cars.remove(car);
             this.availableCars.remove(car);
         } else{
             System.out.println(car+ "do not exist!");
         }
+
     }
+
+    public Car createCarFromID(int carID){
+        Car currentCar = null;
+        for (Car car: cars){
+            if (car.getCarID() == carID) {
+                currentCar = car;
+                break;
+            }
+        }
+        return currentCar;
+    }
+
 
     public void carAvailable(Car car){
         this.rentedCars.remove(car);
@@ -100,8 +150,9 @@ public class CarRentalDB {
 
     public void setPrices(float price){
         //sets the daily rental price for all cars
-
-
+        for (Car car : availableCars) {
+            car.setPrice(price);
+        }
     }
 
 
@@ -116,5 +167,39 @@ public class CarRentalDB {
 
     public List<Car> getRentedCars() {
         return rentedCars;
+    }
+
+    public void setCars(List<Car> cars) {
+        this.cars = cars;
+    }
+
+    public void setAvailableCars(List<Car> availableCars) {
+        this.availableCars = availableCars;
+    }
+
+    public void setRentedCars(List<Car> rentedCars) {
+        this.rentedCars = rentedCars;
+    }
+
+    @Override
+    public String toString() {
+        return "CarRentalDB{" +
+                "cars=" + cars +
+                ", availableCars=" + availableCars +
+                ", rentedCars=" + rentedCars +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CarRentalDB that = (CarRentalDB) o;
+        return Objects.equals(cars, that.cars) && Objects.equals(availableCars, that.availableCars) && Objects.equals(rentedCars, that.rentedCars);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(cars, availableCars, rentedCars);
     }
 }
