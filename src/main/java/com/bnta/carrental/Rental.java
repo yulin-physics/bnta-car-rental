@@ -1,29 +1,26 @@
 package com.bnta.carrental;
 
 import com.bnta.carrental.car.Car;
-import com.bnta.carrental.car.CarRentalDB;
-
-import java.util.Scanner;
+import com.bnta.carrental.car.CarRentalListDB;
 
 public class Rental {
-    private CarRentalDB carRentalDB;
+    private CarRentalListDB carRentalFileDB;
 
-    public Rental(CarRentalDB carRentalDB){
-        this.carRentalDB = carRentalDB;
+    public Rental(CarRentalListDB carRentalFileDB){
+        this.carRentalFileDB = carRentalFileDB;
     }
 
     public boolean showCars(){
         //the returned boolean indicates if any car available
-        if (carRentalDB.getAvailableCars().isEmpty()){
-            System.out.println("We are sorry, no cars available at the moment. \nPlease come back later");
+        if (carRentalFileDB.getAvailableCars().isEmpty()){
+            System.out.println("\nWe are sorry, no cars available at the moment. \nPlease come back later.");
             return false;
 
         } else{
-            System.out.println("\nHere are our available cars" +
-                    "\nPlease enter car ID from the following list");
+            System.out.println("\nHere are our available cars, please enter car ID from the following list\n");
 
-            for(Car car : carRentalDB.getAvailableCars()){
-                System.out.println(car.getCarID() + " "+ car.getMake() + " " +  car.getPrice());
+            for(Car car : carRentalFileDB.getAvailableCars()){
+                System.out.println("Car ID:" + car.getCarID() + "    Model:"+ car.getMake() + "    Renting Price:" +  car.getPrice());
             }
 
             return true;
@@ -32,16 +29,16 @@ public class Rental {
     }
 
     public void bookCar(int carID){
-        if (!carRentalDB.isCarAvailable(carID)){
+        if (!carRentalFileDB.isCarAvailable(carID)){
             System.out.println("Please double check!");
             return;
         }
 
-        for(Car car : carRentalDB.getAvailableCars()){
+        for(Car car : carRentalFileDB.getAvailableCars()){
             if (car.getCarID() == carID){
-                carRentalDB.carRented(car);
-                System.out.println(car + " booked successfully." +
-                        "\nIMPORTANT: Please make a note of your car ID" +
+                carRentalFileDB.carRented(car);
+                System.out.println("\n" + car.getMake() + " with car ID " + car.getCarID() + " booked successfully." +
+                        "\nIMPORTANT: Please make a note of your car ID and make your payment of " + car.getPrice() + " upon collection." +
                         "\nThank you for using our service!");
                 break;
             }
@@ -52,15 +49,15 @@ public class Rental {
 
 
     public void returnCar(int carID){
-        if (!carRentalDB.isCarRented(carID)){
+        if (!carRentalFileDB.isCarRented(carID)){
             System.out.println("Please double check!");
             return;
         }
 
-        for(Car car : carRentalDB.getRentedCars()){
+        for(Car car : carRentalFileDB.getRentedCars()){
             if (car.getCarID() == carID){
-            carRentalDB.carAvailable(car);
-            System.out.println(car.getCarID() + " " + car.getMake() + " successfully returned." +
+            carRentalFileDB.carAvailable(car);
+            System.out.println("\n" + car.getMake() + " with car ID " + car.getCarID() + " successfully returned." +
                     "\nThank you for using our service!");
             break;
         }

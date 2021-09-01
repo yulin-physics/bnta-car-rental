@@ -1,7 +1,6 @@
 package com.bnta.carrental.file;
 
 import com.bnta.carrental.car.Car;
-import com.bnta.carrental.car.CarRentalDB;
 import com.bnta.carrental.car.CarsMake;
 
 import java.io.*;
@@ -78,7 +77,7 @@ public class CSVSaver {
         int carID = Integer.parseInt(carProperties.get(0)) + 1;
         Double carPrice = Double.parseDouble(carProperties.get(1));
         CarsMake carsMake = CarsMake.valueOf(carProperties.get(2));
-        boolean carRented = Boolean.parseBoolean(carProperties.get(3));
+        boolean carRented = false;
 
         Car car = new Car(carID, carPrice, carsMake, carRented);
         return car;
