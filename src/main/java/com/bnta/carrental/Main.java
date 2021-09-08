@@ -2,16 +2,26 @@ package com.bnta.carrental;
 
 import com.bnta.carrental.car.Car;
 import com.bnta.carrental.car.CarRentalListDB;
-import com.bnta.carrental.car.CarsMake;
 import com.bnta.carrental.file.CSVReader;
 import com.bnta.carrental.file.CSVSaver;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLOutput;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws IOException {
+        boolean restart = true;
+       while(restart){
+           restart = welcome();
+       }
+
+    }
+
+    public static boolean welcome() throws IOException {
+        boolean restart;
+
         File file = new File("src/main/java/com/bnta/carrental/rentalDB.csv");
 
         CarRentalListDB carRentalListDB = new CarRentalListDB();
@@ -63,6 +73,7 @@ public class Main {
                     rental.bookCar(answer);
 
                     CSVSaver.saveDB(file, carRentalListDB.getCars());
+
                 }
 
             } else {
@@ -139,8 +150,18 @@ public class Main {
             throw new IllegalArgumentException("Unexpected option: " + answer);
         }
 
+        System.out.println("\nWould you like to use any other service? ");
+        System.out.print("Enter here (y/n): ");
+        scanner.nextLine();
+        String replay = scanner.nextLine();
 
+        if (replay.equals("y")){
+            restart = true;
+        } else {
+            restart = false;
+        }
 
+        return restart;
     }
 
     public static void userLogin() {
