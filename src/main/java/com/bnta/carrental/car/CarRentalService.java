@@ -2,6 +2,8 @@ package com.bnta.carrental.car;
 
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+
 @Service
 public class CarRentalService {
     private CarRentalDB carRentalDB;
@@ -10,7 +12,7 @@ public class CarRentalService {
         this.carRentalDB = carRentalPostgreDB;
     }
 
-    public void insertCar(String price, String make){
+    public void insertCar(Double price, String make){
         carRentalDB.insertCar(price, make);
 
     }

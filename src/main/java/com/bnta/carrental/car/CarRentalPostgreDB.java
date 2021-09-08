@@ -24,14 +24,13 @@ public class CarRentalPostgreDB implements CarRentalDB{
     }
 
     @Override
-    public void insertCar(String price, String make) {
+    public void insertCar(Double price, String make) {
         String sqlQuery = """
                 INSERT INTO car (price, make)
                 VALUES(?, ?)
                 """;
 
-        Double priceNum = Double.parseDouble(price);
-        int rowNum = jdbcTemplate.update(sqlQuery, priceNum, make);
+        int rowNum = jdbcTemplate.update(sqlQuery, price, make);
     }
 
     @Override

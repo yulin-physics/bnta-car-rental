@@ -50,13 +50,13 @@ public class CarRentalListDB implements CarRentalDB {
     }
 
     @Override
-    public void insertCar(String inputPrice, String inputCarMake){
+    public void insertCar(Double inputPrice, String inputCarMake){
 
-        Double price = Double.parseDouble(inputPrice);
+
         CarsMake carMake = CarsMake.valueOf(inputCarMake.toUpperCase());
         int carID = getLastCarID() + 1;
 
-        Car car = new Car(carID, price, carMake, false);
+        Car car = new Car(carID, inputPrice, carMake, false);
 
         this.cars.add(car);
         if (car.isRented()){

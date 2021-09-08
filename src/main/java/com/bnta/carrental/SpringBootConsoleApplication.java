@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -146,7 +147,7 @@ public class SpringBootConsoleApplication
 
                     System.out.print("Enter daily price for renting: ");
                     Scanner input2 = new Scanner(System.in);
-                    String inputPrice = input2.nextLine();
+                    Double inputPrice = input2.nextDouble();
 
 //                    System.out.print("Enter customer unique customer ID: ");
 //                    Scanner input3 = new Scanner(System.in);

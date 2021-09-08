@@ -110,7 +110,7 @@ public class Main {
 
                     System.out.print("Enter daily price for renting: ");
                     Scanner input2 = new Scanner(System.in);
-                    String inputPrice = input2.nextLine();
+                    Double inputPrice = input2.nextDouble();
 
                     carRentalListDB.insertCar(inputPrice, inputCarMake);
 
