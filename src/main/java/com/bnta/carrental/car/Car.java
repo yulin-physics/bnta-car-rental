@@ -7,6 +7,15 @@ public class Car {
     private double price;
     private CarsMake make;
     private boolean rented;
+    private int customerID;
+
+    public Car(int carID, double price, CarsMake make, boolean rented, int customerID) {
+        this.carID = carID;
+        this.price = price;
+        this.make = make;
+        this.rented = rented;
+        this.customerID = customerID;
+    }
 
     public Car(int carID, double price, CarsMake make, boolean rented) {
         this.carID = carID;

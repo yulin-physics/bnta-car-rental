@@ -1,26 +1,62 @@
 package com.bnta.carrental;
 
-import com.bnta.carrental.car.Car;
-import com.bnta.carrental.car.CarRentalListDB;
+import com.bnta.carrental.car.*;
 import com.bnta.carrental.file.CSVReader;
 import com.bnta.carrental.file.CSVSaver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.SQLOutput;
+import java.util.Arrays;
 import java.util.Scanner;
 
-public class Main {
-    public static void main(String[] args) throws IOException {
-        boolean restart = true;
-       while(restart){
-           restart = welcome();
-       }
+@SpringBootApplication
+public class SpringBootConsoleApplication
+        implements CommandLineRunner {
 
+    @Autowired
+    private CarRentalService carRentalService;
+
+    public SpringBootConsoleApplication(CarRentalService carRentalService){
+        this.carRentalService = carRentalService;
     }
 
-    public static boolean welcome() throws IOException {
+    private static Logger LOG = LoggerFactory
+            .getLogger(SpringBootConsoleApplication.class);
+
+    public static void main(String[] args) {
+        LOG.info("STARTING THE APPLICATION");
+        SpringApplication.run(SpringBootConsoleApplication.class, args);
+
+
+
+        LOG.info("APPLICATION FINISHED");
+    }
+
+    @Override
+    public void run(String... args) throws IOException {
+        LOG.info("EXECUTING : command line runner");
+
+        boolean restart = true;
+        while(restart){
+            restart = welcome();
+        }
+
+        for (int i = 0; i < args.length; ++i) {
+            LOG.info("args[{}]: {}", i, args[i]);
+        }
+    }
+
+
+    public boolean welcome() throws IOException {
         boolean restart;
+
 
         File file = new File("src/main/java/com/bnta/carrental/rentalDB.csv");
 
@@ -112,9 +148,11 @@ public class Main {
                     Scanner input2 = new Scanner(System.in);
                     String inputPrice = input2.nextLine();
 
-                    carRentalListDB.insertCar(inputPrice, inputCarMake);
+//                    System.out.print("Enter customer unique customer ID: ");
+//                    Scanner input3 = new Scanner(System.in);
+//                    String inputID = input3.nextLine();
 
-                    CSVSaver.saveDB(file, carRentalListDB.getCars());
+                    carRentalService.insertCar(inputPrice, inputCarMake);
 
                     System.out.println(carRentalListDB.getCars().get(carRentalListDB.getCars().size() - 1) + " added to database");
                     break;
@@ -190,6 +228,6 @@ public class Main {
             }
         }
 
-        }
-
     }
+
+}

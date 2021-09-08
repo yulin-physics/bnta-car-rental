@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+
 public class CarRentalListDB implements CarRentalDB {
     private List<Car> cars;
     private List<Car> availableCars;
@@ -49,7 +50,7 @@ public class CarRentalListDB implements CarRentalDB {
     }
 
     @Override
-    public void addCar(String inputPrice, String inputCarMake){
+    public void insertCar(String inputPrice, String inputCarMake){
 
         Double price = Double.parseDouble(inputPrice);
         CarsMake carMake = CarsMake.valueOf(inputCarMake.toUpperCase());
@@ -75,6 +76,11 @@ public class CarRentalListDB implements CarRentalDB {
         } else{
             System.out.println(car+ "do not exist!");
         }
+
+    }
+
+    @Override
+    public void insertCustomer(String name, String email) {
 
     }
 
