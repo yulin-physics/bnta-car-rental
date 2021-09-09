@@ -1,7 +1,7 @@
 package com.bnta.carrental;
 
-import com.bnta.carrental.car.Car;
-import com.bnta.carrental.car.CarRentalListDB;
+import com.bnta.carrental.car.misc.Car;
+import com.bnta.carrental.car.misc.CarRentalListDB;
 
 public class Rental {
     private CarRentalListDB carRentalFileDB;

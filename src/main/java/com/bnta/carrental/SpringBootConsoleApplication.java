@@ -1,6 +1,7 @@
 package com.bnta.carrental;
 
 import com.bnta.carrental.car.*;
+import com.bnta.carrental.car.misc.CarRentalListDB;
 import com.bnta.carrental.file.CSVReader;
 import com.bnta.carrental.file.CSVSaver;
 import org.slf4j.Logger;
@@ -9,12 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.Scanner;
 
 @SpringBootApplication
@@ -58,14 +56,6 @@ public class SpringBootConsoleApplication
     public boolean welcome() throws IOException {
         boolean restart;
 
-
-        File file = new File("src/main/java/com/bnta/carrental/rentalDB.csv");
-
-        CarRentalListDB carRentalListDB = new CarRentalListDB();
-        Rental rental = new Rental(carRentalListDB);
-
-        carRentalListDB.addCars(CSVReader.readDB(file));
-
         Scanner scanner = new Scanner(System.in);
 
 
@@ -103,13 +93,15 @@ public class SpringBootConsoleApplication
             if (answer == 1){
                 //book car
 
-                boolean isCarAvailable = rental.showCars();
-                if (isCarAvailable) {
+                int availableCars = carRentalService.showAvailableCars();
+                if (availableCars > 0) {
                     System.out.print("Enter car ID here: ");
-                    answer = scanner.nextInt();
-                    rental.bookCar(answer);
+                    int carID = scanner.nextInt();
 
-                    CSVSaver.saveDB(file, carRentalListDB.getCars());
+                    System.out.print("Enter your unique customer ID here: ");
+                    int customerID = scanner.nextInt();
+
+                    carRentalService.bookCar(carID, customerID);
 
                 }
 
@@ -118,10 +110,13 @@ public class SpringBootConsoleApplication
                 System.out.println("\nYou have chosen car return, please find your car ID.");
                 System.out.print("Enter car ID here: ");
 
-                answer = scanner.nextInt();
-                rental.returnCar(answer);
+                int carID = scanner.nextInt();
 
-                CSVSaver.saveDB(file, carRentalListDB.getCars());
+                System.out.print("Enter your unique customer ID here: ");
+
+                int customerID = scanner.nextInt();
+
+                carRentalService.returnCar(carID, customerID);
             }
 
 
@@ -155,30 +150,28 @@ public class SpringBootConsoleApplication
 
                     carRentalService.insertCar(inputPrice, inputCarMake);
 
-                    System.out.println(carRentalListDB.getCars().get(carRentalListDB.getCars().size() - 1) + " added to database");
+                    System.out.println("Car added to database successfully! ");
                     break;
                 case 2:
                     System.out.println("\nYou have chosen to remove a car from database (Please check available cars if you don't know the car ID)");
                     System.out.print("Enter the car ID: ");
                     answer = scanner.nextInt();
 
-                    Car inputCar = carRentalListDB.createCarFromID(answer);
-                    System.out.println(inputCar + " will be removed, press ENTER to continue");
+                    Car car = carRentalService.selectCar(answer);
+                    System.out.println(car + " will be removed, press ENTER to continue");
                     Scanner confirm = new Scanner(System.in);
                     confirm.nextLine();
 
-                    carRentalListDB.removeCar(answer);
+                    carRentalService.removeCar(answer);
 
-                    CSVSaver.saveDB(file, carRentalListDB.getCars());
-
-                    System.out.println(inputCar + " successfully removed");
+                    System.out.println(car + " successfully removed");
 
                     break;
                 case 3:
-                    carRentalListDB.showAvailableCars();
+                    carRentalService.showAvailableCars();
                     break;
                 case 4:
-                    carRentalListDB.showRentedCars();
+                    carRentalService.showRentedCars();
                     break;
 
             }

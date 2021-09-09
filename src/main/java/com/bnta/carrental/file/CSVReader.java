@@ -1,6 +1,6 @@
 package com.bnta.carrental.file;
 
-import com.bnta.carrental.car.Car;
+import com.bnta.carrental.car.misc.Car;
 import com.bnta.carrental.car.CarsMake;
 
 import java.io.File;
@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 public class CSVReader {
 
-    public static List<Car> readDB(File file) throws FileNotFoundException {
+    public static List<com.bnta.carrental.car.misc.Car> readDB(File file) throws FileNotFoundException {
         List<Car> cars = new ArrayList();
 
         Scanner scanner = new Scanner(file);
@@ -32,7 +32,7 @@ public class CSVReader {
         CarsMake carsMake = CarsMake.valueOf(carProperties[2]);
         boolean carRented = Boolean.parseBoolean(carProperties[3]);
 
-        Car car = new Car(carID, carPrice, carsMake, carRented);
+        Car car = new Car(carID, carPrice, carsMake, carRented, 0);
         return car;
     }
 

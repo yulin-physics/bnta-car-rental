@@ -1,36 +1,26 @@
 package com.bnta.carrental.car;
 
+import org.springframework.context.annotation.Bean;
+
 import java.util.Objects;
 
 public class Car {
     private int carID;
     private double price;
     private CarsMake make;
-    private boolean rented;
     private int customerID;
 
-    public Car(int carID, double price, CarsMake make, boolean rented, int customerID) {
+    public Car(int carID, double price, CarsMake make, int customerID) {
         this.carID = carID;
         this.price = price;
         this.make = make;
-        this.rented = rented;
         this.customerID = customerID;
     }
 
-    public Car(int carID, double price, CarsMake make, boolean rented) {
-        this.carID = carID;
-        this.price = price;
-        this.make = make;
-        this.rented= rented;
+    public Car() {
+
     }
 
-
-    public Car(int carID, double price, CarsMake make) {
-        this.carID = carID;
-        this.price = price;
-        this.make = make;
-        this.rented = false;
-    }
 
     public int getCarID() {
         return carID;
@@ -56,12 +46,12 @@ public class Car {
         this.make = make;
     }
 
-    public boolean isRented() {
-        return rented;
+    public int getCustomerID() {
+        return customerID;
     }
 
-    public void setRented(boolean rented) {
-        this.rented = rented;
+    public void setCustomerID(int customerID) {
+        this.customerID = customerID;
     }
 
     @Override
@@ -70,7 +60,6 @@ public class Car {
                 "carID=" + carID +
                 ", price=" + price +
                 ", make=" + make +
-                ", rented=" + rented +
                 '}';
     }
 
@@ -79,11 +68,11 @@ public class Car {
         if (object == null || getClass() != object.getClass()) return false;
         if (!super.equals(object)) return false;
         Car car = (Car) object;
-        return carID == car.carID && java.lang.Double.compare(car.price, price) == 0 && rented == car.rented && java.util.Objects.equals(make, car.make);
+        return carID == car.carID && java.lang.Double.compare(car.price, price) == 0  && java.util.Objects.equals(make, car.make);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(carID, price, make, rented);
+        return Objects.hash(carID, price, make);
     }
 }

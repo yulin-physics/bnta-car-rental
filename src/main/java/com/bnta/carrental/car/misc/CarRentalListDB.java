@@ -1,4 +1,8 @@
-package com.bnta.carrental.car;
+package com.bnta.carrental.car.misc;
+
+import com.bnta.carrental.car.misc.Car;
+import com.bnta.carrental.car.CarRentalDB;
+import com.bnta.carrental.car.CarsMake;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -19,7 +23,7 @@ public class CarRentalListDB implements CarRentalDB {
     }
 
     @Override
-    public void showAvailableCars(){
+    public int showAvailableCars(){
 
         if (availableCars.isEmpty()){
             System.out.println("\nNo cars available at the moment, please check rented cars");
@@ -31,6 +35,7 @@ public class CarRentalListDB implements CarRentalDB {
             }
 
         }
+        return 0;
     }
 
     @Override
@@ -56,7 +61,7 @@ public class CarRentalListDB implements CarRentalDB {
         CarsMake carMake = CarsMake.valueOf(inputCarMake.toUpperCase());
         int carID = getLastCarID() + 1;
 
-        Car car = new Car(carID, inputPrice, carMake, false);
+        Car car = new Car(carID, inputPrice, carMake, false, 0);
 
         this.cars.add(car);
         if (car.isRented()){
@@ -64,6 +69,16 @@ public class CarRentalListDB implements CarRentalDB {
         } else {
             this.availableCars.add(car);
         }
+
+    }
+
+    @Override
+    public void bookCar(int carID, int customerID) {
+
+    }
+
+    @Override
+    public void returnCar(int carID, int customerID) {
 
     }
 
@@ -114,7 +129,7 @@ public class CarRentalListDB implements CarRentalDB {
         }
     }
 
-
+    @Override
     public Car createCarFromID(int carID){
         Car currentCar = null;
         for (Car car: cars){

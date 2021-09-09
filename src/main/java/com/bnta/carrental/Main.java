@@ -1,13 +1,12 @@
 package com.bnta.carrental;
 
 import com.bnta.carrental.car.Car;
-import com.bnta.carrental.car.CarRentalListDB;
+import com.bnta.carrental.car.misc.CarRentalListDB;
 import com.bnta.carrental.file.CSVReader;
 import com.bnta.carrental.file.CSVSaver;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.SQLOutput;
 import java.util.Scanner;
 
 public class Main {
