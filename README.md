@@ -19,15 +19,19 @@ All data are saved onto the file:
 ```
 rentalDB.csv
 ```
+and PostgreSQL database. The switch between the two through the interface is yet to be implemented.
+
+
 You can add new cars, remove cars, make changes directly to the csv file instead of the using the command line interface.
 The changes will be reflected in the car rental part of the CLI.
 
 ## Technologies
 Project is created with:
 - IntelliJ IDEA
+- PostgreSQL
 
 ## Setup
-To start the CLI system, run `Main.java`
+To start the CLI system, run `Main.java` or `SpringBootConsoleApplication.java`.
 
 When prompted to enter username to access car management functions:  
 `Enter Username: username`  
